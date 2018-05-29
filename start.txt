@@ -1,0 +1,37 @@
+Hey guys, Here's the application I've been working on all summer. 
+It's running pretty good on my machine. Hope you find it useful. Also, remember
+that I'm looking for a full-time job next fall, really loved working with you guys. 
+
+This should be enough to get you started.
+
+Install mysql:
+
+$ brew install mysql
+$ brew tap homebrew/services
+$ brew services start mysql
+
+Reset root password:
+
+$ brew services stop mysql
+$ rm -rf /usr/local/var/mysql
+$ mysqld --initialize 
+$ brew services start mysql
+$ mysql -u root -p
+
+mysql>ALTER USER 'root'@'localhost' IDENTIFIED BY 'MyNewPass'
+mysql>CREATE USER 'youser'@'%' IDENTIFIED BY 'yoimcool';
+mysql>GRANT ALL PRIVILEGES ON *.* TO 'youser'@'%' WITH GRANT OPTION;
+mysql>CREATE DATABASE yo;
+
+Run the application
+$ mvn spring-boot:run
+
+If you want to run without Maven: 
+$ java -jar target/yo-1.2.3-SNAPSHOT.jar \
+    -Dserver.port=80 \
+    -Dspring.datasource.url=jdbc:mysql://127.0.0.1:3306/yo
+
+Test application:
+
+$ curl -v 'localhost:8080/v1/user/add?name=First&email=someemail@someemailprovider.com'
+$ curl -v 'localhost:8080/v1/user/list'
